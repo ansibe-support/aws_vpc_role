@@ -9,13 +9,26 @@
     region: "{{ aws_region }}"
     state: "{{ aws_state }}"
     tenancy: "{{ tenancy | default(default) }}"
-    # tags:
-    #   Name: `"{{ vpc_name }}"`
   register: vpc_create
-  # tag: create_vpc
   retries: 5
-  # when: {{aws_state}} is present
+
 - name: Debug the vpc details
   ansible.builtin.debug:
     var: vpc_create
     verbosity: 2
+
+- name: Define a new Variable for the for the VPC_ID reference
+  ansible.builtin.set_fact:
+    vpc_create_id: vpc_create.id
+    vpc_create_name: vpc_create.name
+
+- name: Create Subnets for both public and private subnets
+  amazon.aws.ec2_vpc_subnet:
+    az:
+    cidr:
+    map_public:
+    state:
+    wait:
+    vpc_id:
+    wait_timeout:
+  
