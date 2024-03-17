@@ -1,0 +1,21 @@
+# tasks file for aws-vpc-role
+---
+- name: Create a VPC {{ vpc_name }} and CIDR {{ vpc_cidr_block }} details  .
+  amazon.aws.ec2_vpc_net:
+    name: "{{ vpc_name }}"
+    cidr_block: "{{ vpc_cidr_block }}"
+    dns_hostnames: "{{ dns_hostnames | default(true) }}"
+    dns_support: "{{ dns_support | default(true) }}"
+    region: "{{ aws_region }}"
+    state: "{{ aws_state }}"
+    tenancy: "{{ tenancy | default(default) }}"
+    # tags:
+    #   Name: `"{{ vpc_name }}"`
+  register: vpc_create
+  # tag: create_vpc
+  retries: 5
+  when: {{aws_state}} is present
+- name: Debug the vpc details
+  ansible.builtin.debug:
+    var: vpc_create
+    verbosity: 2
