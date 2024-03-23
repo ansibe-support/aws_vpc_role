@@ -1,6 +1,6 @@
 # tasks file for aws-vpc-role
 ---
-- name: Create a VPC
+- name: create a VPC
   amazon.aws.ec2_vpc_net:
     name: "{{ vpc_name }}"
     cidr_block: "{{ vpc_cidr_block }}"
