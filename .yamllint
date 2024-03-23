@@ -1,9 +1,17 @@
 extends: default
 
 rules:
-  line-length:
-    max: 120
-    level: warning
+  braces:
+    max-spaces-inside: 1
+    level: error
+  brackets:
+    max-spaces-inside: 1
+    level: error
+  line-length: disable
+  truthy:
+    check-keys: false
 
 ignore: |
   .github/workflows/ansible-lint.yml
+  .tox/
+  .cache/

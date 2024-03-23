@@ -1,4 +1,5 @@
 # tasks file for aws-vpc-role
+---
 - name: Create a VPC
   amazon.aws.ec2_vpc_net:
     name: "{{ vpc_name }}"
@@ -20,14 +21,3 @@
   ansible.builtin.set_fact:
     vpc_create_id: "{{ vpc_create.id }}"
     vpc_create_name: "{{ vpc_create.name }}"
-
-- name: Create Subnets for both public and private subnets
-  amazon.aws.ec2_vpc_subnet:
-    az: "{{ item.value.az }}"
-    cidr: "{{ item.value.subnet_cidr }}"
-    map_public: "{{ item.value.map_public | default(false) }}"
-    state: "{{ aws_state }}"
-    wait: "{{ subnet_creation_wait | default(true) }}"
-    vpc_id: "{{ vpc_create_id }}"
-    wait_timeout: 60
-  with_dict: "{{ vpc_subnet_cidrs|dict2items }}"

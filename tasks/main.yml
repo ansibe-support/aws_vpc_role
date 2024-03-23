@@ -1,4 +1,5 @@
 # tasks file for aws-vpc-role
+---
 - name: Create a VPC
   amazon.aws.ec2_vpc_net:
     name: "{{ vpc_name }}"
@@ -30,4 +31,4 @@
     wait: "{{ subnet_creation_wait | default(true) }}"
     vpc_id: "{{ vpc_create_id }}"
     wait_timeout: 60
-  with_dict: "{{ vpc_subnet_cidrs|dict2items }}"
+  with_dict: "{{ vpc_subnet_cidrs | dict2items }}"
